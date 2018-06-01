@@ -9,12 +9,13 @@ import {
     FlatList
 } from 'react-native';
 import NavigatorBar from "./NavigatorBar";
+import Toast, {DURATION} from 'react-native-easy-toast';
 
 var data = {
     "result": [
         {
             "email": "f.lee@taylor.edu",
-            "fullName": "张三张三张三张三"
+            "fullName": "张三张三张三fffffffffffff张三"
         },
         {
             "email": "g.jackson@hall.net",
@@ -75,74 +76,106 @@ var data = {
     ],
     "statusCode": 0
 };
-export default class Flatlists extends Component  {
+export default class Flatlists extends Component {
     constructor(props) {
         super(props);
         this.state = {
             word: '',
             data: data.result
         }
+    }
 
-        // renderButton(img) {
-        //     return (
-        //         <TouchableOpacity
-        //             onPress={() => {
-        //                 this.props.navigator.pop();
-        //             }}
-        //         >
-        //             <Image
-        //                 style={styles.icon}
-        //                 source={img}
-        //             />
-        //         </TouchableOpacity>
-        //     )
-        // }
-        renderItem(rowData) {
-            return (
-                <View>
-                    <TouchableOpacity
-                        onPress={() => {
-                            this.toast.show('你单击了,' + rowData.fullName, DURATION.LENGTH_LONG);
-                        }}>
+    renderItem(rowData) {
+        return (
+            <View>
+                <TouchableOpacity
+                    onPress={() => {
+                        this.toast.show('你单击了,' + rowData.fullName);
+                    }}>
+                    <View>
                         <Text style={styles.item}>
                             {rowData.fullName}
                         </Text>
                         <Text style={styles.item}>
                             {rowData.email}
                         </Text>
-                    </TouchableOpacity>
-                </View>
-            )
-        };
-        render()
-        {
-            return (
-                <View style={styles.container}>
-                    <NavigatorBar
-                        title={'flatList列表'}
-                        style={{
-                            backgroundColor: '#ee6363'
-                        }}
-                        statusBar={{
-                            backgroundColor: '#ee6363'
-                        }}
-                    />
-                    <FlatList
-                        data={this.data.result}
-                        renderItem={({rowData}) => this.renderItem(rowData)}
-                    />
-                </View>
-            )
-        }
-    }
+                    </View>
+                </TouchableOpacity>
+            </View>
+        )
+    };
 
-    styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            backgroundColor: 'white',
-        },
-        item: {
-            height: 40,
-            padding: 5
-        }
-    })
+    _footer() {
+        return <Text style={[styles.txt, {backgroundColor: 'black'}]}>这是尾部</Text>;
+    };
+
+    _header() {
+        return <Text style={[styles.txt, {backgroundColor: 'black'}]}>这是头部</Text>;
+    };
+
+    _separator() {
+        return <View style={{height: 2, backgroundColor: 'yellow'}}/>;
+    };
+
+    refreshing() {
+        let timer = setTimeout(() => {
+            clearTimeout(timer)
+            alert('刷新成功')
+        }, 1500)
+    };
+    _load() {
+        alert('加载成功')
+
+        // let timer =  setTimeout(()=>{
+        //     clearTimeout(timer)
+        //     alert('加载成功')
+        // },1500)
+    };
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <NavigatorBar
+                    title={'flatList列表'}
+                    style={{
+                        backgroundColor: '#ee6363'
+                    }}
+                    statusBar={{
+                        backgroundColor: '#ee6363'
+                    }}
+                />
+                <FlatList
+                    data={this.state.data}
+                    ItemSeparatorComponent={() => this._separator()}
+                    ListHeaderComponent={() => this._header()}
+                    ListFooterComponent={() => this._footer()}
+                    renderItem={({item}) => this.renderItem(item)}
+                    onRefresh={() => {this.refreshing()}}
+                    refreshing={false}
+                    onEndReachedThreshold={0.1}
+                    onEndReached={() => {this._load()}}
+                />
+                <Toast ref={(toast) => {
+                    this.toast = toast
+                }}/>
+            </View>
+        )
+    }
+}
+
+styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'white',
+    },
+    item: {
+        height: 40,
+        padding: 5
+    },
+    txt: {
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        color: 'white',
+        fontSize: 30,
+    }
+})
