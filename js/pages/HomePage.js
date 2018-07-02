@@ -5,6 +5,7 @@
  */
 
 import React, {Component} from 'react';
+import PopularPage from './PopularPage'
 import {
     Platform,
     StyleSheet,
@@ -34,7 +35,7 @@ export default class App extends Component {
                         renderSelectedIcon={() => <Image style={styles.icon}
                                                          source={require("./../../static/img/ic_polular.png")}/>}
                         onPress={() => this.setState({selectedTab: 'tb_popular'})}>
-                        <View style={styles.page1}></View>
+                       <PopularPage></PopularPage>
                     </TabNavigator.Item>
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'tb_trending'}
