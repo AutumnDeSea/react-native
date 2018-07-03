@@ -20,7 +20,7 @@ export default class RepositoryCell extends Component {
         let data = this.props.data
         return (
             <TouchableOpacity
-                onPress={this.props.onSelect}
+                // onPress={this.props.onSelect}
                 style={styles.container}
             >
                 <View style={styles.cell_container}>
@@ -43,8 +43,6 @@ export default class RepositoryCell extends Component {
                             source={require('../../static/img/ic_star.png')}
                         />
                     </View>
-
-
                 </View>
             </TouchableOpacity>
         )

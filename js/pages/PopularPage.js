@@ -9,7 +9,10 @@ import {
 } from 'react-native';
 import DataRepository from '../expand/dao/DataRepository';
 import NavigationBar from '../common/NavigatorBar'
+import RepositoryCell from '../common/RepositoryCell'
+
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view'
+
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars';
 export default class PopularPage extends Component {
@@ -20,6 +23,7 @@ export default class PopularPage extends Component {
             text: '',
         }
     }
+
     render() {
         return (
             <View style={styles.container}>
@@ -28,7 +32,11 @@ export default class PopularPage extends Component {
                     statusBar={{backgroundColor: "#2196F3"}}
                 />
                 <ScrollableTabView
-                    renderTabBar={() =><ScrollableTabBar/>}
+                    tabBarBackgroundColor="#2196F3"
+                    tabBarActiveTextColor="#ffffff"
+                    tabBarInactiveTextColor="mintcream"
+                    tabBarUnderlineStyle={{backgroundColor: '#e7e7e7', height: 2}}
+                    renderTabBar={() => <ScrollableTabBar/>}
                 >
                     <PopularTab tabLabel="Java">java</PopularTab>
                     <PopularTab tabLabel="Ios">ios</PopularTab>
@@ -38,57 +46,64 @@ export default class PopularPage extends Component {
             </View>)
     }
 }
-// import RepositoryCell from '../common/RepositoryCell'
-class PopularTab extends Component{
+
+class PopularTab extends Component {
     constructor(props) {
         super(props)
-        this.state= {
+        this.state = {
             res: '',
-            dataSource: ''
+            dataSource: [],
+            loading: false,
         }
         this.dataRepository = new DataRepository();
     }
+
     genFetchUrl(key) {
         return URL + key + QUERY_STR;
     }
+
     onLoad() {
+        this.setState({
+            loading: true
+        })
         let url = this.genFetchUrl(this.props.tabLabel);
         this.dataRepository.fetchNetRepository(url)
             .then(res => {
-               alert('aaaaaa')
                 this.setState({
-                    dataSource: JSON.stringify(res)
+                    dataSource: res.items,
+                    loading: false
                 })
             })
             .catch(err => {
-                this.setState({
-                    res: JSON.stringify(err)
-                })
+                // this.setState({
+                //     res: JSON.stringify(err)
+                // })
             })
     };
+
     componentDidMount() {
         this.onLoad()
     };
+
     renderItem(data) {
-        return (
-           <Text>aaaaa</Text>
-        )
+        return <RepositoryCell
+            key={data.id}
+            data={data}
+        />
     };
+
     refreshing() {
 
     };
-    _load() {
-
-    };
     render() {
-        return(
-            <View>
+        return (
+            <View style={{flex:1}}>
                 <FlatList
-                    data={this.state.dataSource.items}
-                    renderItem={({data}) => this.renderItem(data)}
-                    // onRefresh={() => {this.refreshing()}}
-                    // refreshing={false}
-                    // onEndReachedThreshold={0.1}
+                    data={this.state.dataSource}
+                    renderItem={({item}) => this.renderItem(item)}
+                    onRefresh={() => {this.onLoad()}}
+                    refreshing={this.state.loading}
+                    onEndReachedThreshold={0.1}
                     // onEndReached={() => {this._load()}}
                 />
                 <Text>{this.state.res}</Text>
@@ -96,6 +111,7 @@ class PopularTab extends Component{
         )
     }
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,

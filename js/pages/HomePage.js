@@ -6,6 +6,7 @@
 
 import React, {Component} from 'react';
 import PopularPage from './PopularPage'
+import AsyncStorage from '../../AsyncStorage'
 import {
     Platform,
     StyleSheet,
@@ -30,9 +31,9 @@ export default class App extends Component {
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'tb_popular'}
                         title="最热"
-                        selectedTitleStyle={{color: 'red'}}
+                        selectedTitleStyle={{color: '#2196F3'}}
                         renderIcon={() => <Image style={styles.icon} source={require("./../../static/img/ic_polular.png")}/>}
-                        renderSelectedIcon={() => <Image style={styles.icon}
+                        renderSelectedIcon={() => <Image style={[styles.icon, {tintColor: '#2196F3'}]}
                                                          source={require("./../../static/img/ic_polular.png")}/>}
                         onPress={() => this.setState({selectedTab: 'tb_popular'})}>
                        <PopularPage></PopularPage>
@@ -41,16 +42,16 @@ export default class App extends Component {
                         selected={this.state.selectedTab === 'tb_trending'}
                         title="趋势"
                         renderIcon={() => <Image style={styles.icon} source={require("./../../static/img/ic_trending.png")}/>}
-                        renderSelectedIcon={() => <Image style={styles.icon}
+                        renderSelectedIcon={() => <Image style={[styles.icon, {tintColor: '#2196F3'}]}
                                                          source={require("./../../static/img/ic_trending.png")}/>}
                         onPress={() => this.setState({selectedTab: 'tb_trending'})}>
-                        <View style={styles.page2}></View>
+                        <AsyncStorage></AsyncStorage>
                     </TabNavigator.Item>
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'tb_favorite'}
                         title="收藏"
                         renderIcon={() => <Image style={styles.icon} source={require("./../../static/img/ic_favorite.png")}/>}
-                        renderSelectedIcon={() => <Image style={[styles.icon, {tintColor: 'red'}]}
+                        renderSelectedIcon={() => <Image style={[styles.icon, {tintColor: '#2196F3'}]}
                                                          source={require("../../static/img/ic_favorite.png")}/>}
                         onPress={() => this.setState({selectedTab: 'tb_favorite'})}>
                         <View style={styles.page3}></View>
@@ -59,7 +60,7 @@ export default class App extends Component {
                         selected={this.state.selectedTab === 'tb_my'}
                         title="我的"
                         renderIcon={() => <Image style={styles.icon} source={require("../../static/img/ic_my.png")}/>}
-                        renderSelectedIcon={() => <Image style={styles.icon}
+                        renderSelectedIcon={() => <Image style={[styles.icon, {tintColor: '#2196F3'}]}
                                                          source={require("../../static/img/ic_my.png")}/>}
                         onPress={() => this.setState({selectedTab: 'tb_my'})}>
                         <View style={styles.page4}></View>

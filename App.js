@@ -16,6 +16,7 @@ import {
 import {Navigator} from 'react-native-deprecated-custom-components'
 import TabNavigator from 'react-native-tab-navigator'
 import Flatlists from './Flatlist.js'
+import AsyncStorage from  './AsyncStorage'
 import FetchTest from './Fetch.js'
 export default class App extends Component {
     constructor(props) {
@@ -43,7 +44,7 @@ export default class App extends Component {
                 <Navigator
                     style={{flex:1}}
                     initialRoute={{
-                        component: FetchTest
+                        component: AsyncStorage
                     }}
                     configureScene={this._configureScene.bind(this)}
                     renderScene={this._renderScene.bind(this)}
