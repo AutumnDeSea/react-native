@@ -32,6 +32,5 @@ export default class WecomePage extends Component {
                 />
                 <Text>欢迎</Text>
             </View>)
-
     }
 }

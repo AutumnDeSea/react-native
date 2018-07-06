@@ -29,13 +29,19 @@ export default class AsyncStorageTest extends Component {
     };
 
     onRemove() {
-
+        AsyncStorage.removeItem(KEY, (err) => {
+            if (!err) {
+                this.toast.show('删除成功', DURATION.LENGTH_SHORT)
+            } else {
+                this.toast.show('删除失败', DURATION.LENGTH_SHORT)
+            }
+        })
     };
 
     onFetch() {
         AsyncStorage.getItem(KEY, (err, res) => {
             if (!err) {
-                if (res !== '') {
+                if (res !== '' && res !== null) {
                     this.toast.show('取出的内容为:' + res, DURATION.LENGTH_SHORT)
 
                 } else {

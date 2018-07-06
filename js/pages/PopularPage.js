@@ -75,9 +75,9 @@ class PopularTab extends Component {
                 })
             })
             .catch(err => {
-                // this.setState({
-                //     res: JSON.stringify(err)
-                // })
+                this.setState({
+                    res: JSON.stringify(err)
+                })
             })
     };
 
@@ -87,7 +87,7 @@ class PopularTab extends Component {
 
     renderItem(data) {
         return <RepositoryCell
-            key={data.id}
+            id={data.id}
             data={data}
         />
     };
@@ -95,15 +95,19 @@ class PopularTab extends Component {
     refreshing() {
 
     };
+    _keyExtractor = (item, index) => String(item.id);
     render() {
         return (
-            <View style={{flex:1}}>
+            <View style={{flex: 1}}>
                 <FlatList
                     data={this.state.dataSource}
                     renderItem={({item}) => this.renderItem(item)}
-                    onRefresh={() => {this.onLoad()}}
+                    onRefresh={() => {
+                        this.onLoad()
+                    }}
                     refreshing={this.state.loading}
                     onEndReachedThreshold={0.1}
+                    keyExtractor={this._keyExtractor}
                     // onEndReached={() => {this._load()}}
                 />
                 <Text>{this.state.res}</Text>

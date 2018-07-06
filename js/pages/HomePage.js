@@ -7,6 +7,7 @@
 import React, {Component} from 'react';
 import PopularPage from './PopularPage'
 import AsyncStorage from '../../AsyncStorage'
+import MyPage from './my/myPage';
 import {
     Platform,
     StyleSheet,
@@ -63,7 +64,7 @@ export default class App extends Component {
                         renderSelectedIcon={() => <Image style={[styles.icon, {tintColor: '#2196F3'}]}
                                                          source={require("../../static/img/ic_my.png")}/>}
                         onPress={() => this.setState({selectedTab: 'tb_my'})}>
-                        <View style={styles.page4}></View>
+                        <MyPage{...this.props}></MyPage>
                     </TabNavigator.Item>
 
                 </TabNavigator>
